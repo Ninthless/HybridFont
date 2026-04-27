@@ -1,0 +1,101 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Release tag. Defaults to v<module.prop version>.
+        required: false
+        type: string
+      prerelease:
+        description: Mark the GitHub release as prerelease.
+        required: false
+        default: false
+        type: boolean
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements.txt
+
+      - name: Resolve release metadata
+        env:
+          INPUT_TAG: ${{ inputs.tag }}
+          INPUT_PRERELEASE: ${{ inputs.prerelease }}
+        run: |
+          module_version="$(python -c "from pathlib import Path; print(dict(line.split('=', 1) for line in Path('module/module.prop').read_text().splitlines() if '=' in line)['version'])")"
+          module_id="$(python -c "from pathlib import Path; print(dict(line.split('=', 1) for line in Path('module/module.prop').read_text().splitlines() if '=' in line)['id'])")"
+          if [ "$GITHUB_EVENT_NAME" = "push" ]; then
+            release_tag="$GITHUB_REF_NAME"
+          elif [ -n "$INPUT_TAG" ]; then
+            release_tag="$INPUT_TAG"
+          else
+            release_tag="v$module_version"
+          fi
+          expected_tag="v$module_version"
+          if [ "$release_tag" != "$expected_tag" ]; then
+            echo "Release tag $release_tag does not match module.prop version $expected_tag"
+            exit 1
+          fi
+          if [ "$INPUT_PRERELEASE" = "true" ]; then
+            prerelease_flag="--prerelease"
+          else
+            prerelease_flag=""
+          fi
+          echo "MODULE_VERSION=$module_version" >> "$GITHUB_ENV"
+          echo "MODULE_ID=$module_id" >> "$GITHUB_ENV"
+          echo "RELEASE_TAG=$release_tag" >> "$GITHUB_ENV"
+          echo "PRERELEASE_FLAG=$prerelease_flag" >> "$GITHUB_ENV"
+
+      - name: Build packages
+        run: python tools/build.py
+
+      - name: Verify packages
+        run: |
+          test -f "dist/${MODULE_ID}-v${MODULE_VERSION}.zip"
+          test -f "dist/${MODULE_ID}-v${MODULE_VERSION}-coloros16-safe-disabled.zip"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: hybridfont-${{ env.RELEASE_TAG }}
+          path: dist/*.zip
+          if-no-files-found: error
+
+      - name: Write release notes
+        run: |
+          cat > RELEASE_NOTES.md <<EOF
+          ## Packages
+
+          - ${MODULE_ID}-v${MODULE_VERSION}.zip: full compatibility package.
+          - ${MODULE_ID}-v${MODULE_VERSION}-coloros16-safe-disabled.zip: conservative ColorOS/OxygenOS first-test package, disabled by default.
+
+          ## Fonts
+
+          - Inter: 6 upright weights and 6 italic weights.
+          - Noto Sans SC: 7 Simplified Chinese weights.
+          EOF
+
+      - name: Publish GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release create "$RELEASE_TAG" dist/*.zip --target "$GITHUB_SHA" --title "Hybrid Font $RELEASE_TAG" --notes-file RELEASE_NOTES.md $PRERELEASE_FLAG

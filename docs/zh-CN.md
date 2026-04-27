@@ -11,6 +11,7 @@
 ## 目录
 
 - [构建](#构建)
+- [自动发布](#自动发布)
 - [生成的刷入包](#生成的刷入包)
 - [安装](#安装)
 - [ColorOS 16 / 一加首刷建议](#coloros-16--一加首刷建议)
@@ -27,6 +28,35 @@ python tools/build.py
 ```
 
 构建脚本会从 Google Fonts 官方仓库下载 Inter 和 Noto Sans SC 变量字体，然后用 `fonttools` 生成静态多字重字体文件，并打包成 KernelSU/Magisk 可刷入 zip。
+
+## 自动发布
+
+仓库包含 GitHub Actions 发布工作流：
+
+```text
+.github/workflows/release.yml
+```
+
+推送版本 tag 后会自动构建两个 zip，并创建 GitHub Release：
+
+```powershell
+git tag v1.0.0
+git push origin v1.0.0
+```
+
+tag 必须和 `module/module.prop` 里的版本一致。比如：
+
+```text
+version=1.0.0
+```
+
+对应 tag 必须是：
+
+```text
+v1.0.0
+```
+
+也可以在 GitHub Actions 页面手动运行 `Release` 工作流。如果不填写 tag，会默认使用 `v<module.prop version>`。
 
 ## 生成的刷入包
 

@@ -17,9 +17,7 @@ DIST = ROOT / "dist"
 MODULE_FONTS = MODULE / "system" / "fonts"
 MODULE_LICENSES = MODULE / "licenses"
 DISABLE_FLAG = MODULE / "disable"
-
-VERSION = "1.0.0"
-MODULE_ID = "hybridfont_notosc_inter"
+MODULE_PROP = MODULE / "module.prop"
 
 INTER_URL = "https://raw.githubusercontent.com/google/fonts/main/ofl/inter/Inter%5Bopsz%2Cwght%5D.ttf"
 INTER_ITALIC_URL = "https://raw.githubusercontent.com/google/fonts/main/ofl/inter/Inter-Italic%5Bopsz%2Cwght%5D.ttf"
@@ -55,6 +53,16 @@ CJK_SC_ALIASES = {
     "Bold": ["NotoSansCJKsc-Bold.otf"],
     "Black": ["NotoSansCJKsc-Black.otf"],
 }
+
+
+def read_module_prop() -> dict[str, str]:
+    values: dict[str, str] = {}
+    for line in MODULE_PROP.read_text(encoding="utf-8").splitlines():
+        if not line or "=" not in line:
+            continue
+        key, value = line.split("=", 1)
+        values[key] = value
+    return values
 
 
 def download(url: str, target: Path) -> None:
@@ -154,7 +162,8 @@ def generate_fonts(include_compat_fallbacks: bool) -> None:
 
 
 def make_zip(suffix: str = "") -> Path:
-    zip_path = DIST / f"{MODULE_ID}-v{VERSION}{suffix}.zip"
+    module_prop = read_module_prop()
+    zip_path = DIST / f"{module_prop['id']}-v{module_prop['version']}{suffix}.zip"
     with zipfile.ZipFile(zip_path, "w", zipfile.ZIP_DEFLATED, compresslevel=9) as archive:
         for path in sorted(MODULE.rglob("*")):
             if path.is_file():

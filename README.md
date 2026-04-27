@@ -12,6 +12,7 @@ This is intentionally built as a KernelSU/Magisk module, not an Xposed APK. Font
 ## Contents
 
 - [Build](#build)
+- [Release](#release)
 - [Install](#install)
 - [ColorOS 16 / OnePlus First Test](#coloros-16--oneplus-first-test)
 - [Font Mapping](#font-mapping)
@@ -28,6 +29,19 @@ The build writes two flashable zips:
 
 - `dist/hybridfont_notosc_inter-v1.0.0.zip`: full compatibility package.
 - `dist/hybridfont_notosc_inter-v1.0.0-coloros16-safe-disabled.zip`: conservative package with the module disabled by default and without `DroidSansFallback*` or generic `NotoSansCJK-*.ttc` replacements.
+
+## Release
+
+GitHub Actions publishes releases automatically when a version tag is pushed:
+
+```powershell
+git tag v1.0.0
+git push origin v1.0.0
+```
+
+The tag must match `module/module.prop` version as `v<version>`. For example, `version=1.0.0` requires `v1.0.0`.
+
+The release workflow can also be started manually from the GitHub Actions page. If no tag is provided, it uses `v<module.prop version>`.
 
 ## Install
 
