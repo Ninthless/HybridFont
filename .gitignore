@@ -1,0 +1,6 @@
+build/
+dist/
+module/system/fonts/
+module/licenses/
+*.pyc
+__pycache__/
