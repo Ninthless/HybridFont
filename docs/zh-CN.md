@@ -14,7 +14,7 @@
 - [自动发布](#自动发布)
 - [生成的刷入包](#生成的刷入包)
 - [安装](#安装)
-- [ColorOS 16 / 一加首刷建议](#coloros-16--一加首刷建议)
+- [通用首刷建议](#通用首刷建议)
 - [出问题怎么救](#出问题怎么救)
 - [字重数量](#字重数量)
 - [字体映射](#字体映射)
@@ -40,20 +40,20 @@ python tools/build.py
 推送版本 tag 后会自动构建两个 zip，并创建 GitHub Release：
 
 ```powershell
-git tag v1.0.0
-git push origin v1.0.0
+git tag v1.0.1
+git push origin v1.0.1
 ```
 
 tag 必须和 `module/module.prop` 里的版本一致。比如：
 
 ```text
-version=1.0.0
+version=1.0.1
 ```
 
 对应 tag 必须是：
 
 ```text
-v1.0.0
+v1.0.1
 ```
 
 也可以在 GitHub Actions 页面手动运行 `Release` 工作流。如果不填写 tag，会默认使用 `v<module.prop version>`。
@@ -62,13 +62,13 @@ v1.0.0
 
 构建完成后会生成两个 zip：
 
-- `dist/hybridfont_notosc_inter-v1.0.0.zip`
-- `dist/hybridfont_notosc_inter-v1.0.0-coloros16-safe-disabled.zip`
+- `dist/hybridfont_notosc_inter-v1.0.1.zip`
+- `dist/hybridfont_notosc_inter-v1.0.1-safe-disabled.zip`
 
 两个包的区别：
 
 - 完整包：覆盖范围更大，包含 `DroidSansFallback*` 和通用 `NotoSansCJK-*.ttc` 兼容文件。
-- ColorOS 安全包：默认禁用模块，并且跳过更激进的 fallback/TTC 替换，适合第一次测试。
+- 安全包：默认禁用模块，并且跳过更激进的 fallback/TTC 替换，适合所有机型第一次测试。
 
 ## 安装
 
@@ -76,17 +76,17 @@ v1.0.0
 
 KernelSU 上替换 `/system` 文件需要有可用的挂载 metamodule，例如 `meta-overlayfs`。没有这类挂载能力时，模块可能安装成功但字体 overlay 不生效。
 
-## ColorOS 16 / 一加首刷建议
+## 通用首刷建议
 
-如果你是一加 15 / ColorOS 16 / KernelSU，建议先刷这个包：
+第一次在任意机型或任意 ROM 上测试，建议先刷这个包：
 
 ```text
-dist/hybridfont_notosc_inter-v1.0.0-coloros16-safe-disabled.zip
+dist/hybridfont_notosc_inter-v1.0.1-safe-disabled.zip
 ```
 
 推荐流程：
 
-1. 在 KernelSU Manager 里刷入 `coloros16-safe-disabled` 包。
+1. 在 KernelSU Manager 或 Magisk 里刷入 `safe-disabled` 包。
 2. 重启一次，此时模块默认还是禁用状态。
 3. 确认系统能正常开机，并且 KernelSU Manager 里能看到模块。
 4. 手动启用模块。

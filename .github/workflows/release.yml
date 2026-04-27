@@ -73,7 +73,7 @@ jobs:
       - name: Verify packages
         run: |
           test -f "dist/${MODULE_ID}-v${MODULE_VERSION}.zip"
-          test -f "dist/${MODULE_ID}-v${MODULE_VERSION}-coloros16-safe-disabled.zip"
+          test -f "dist/${MODULE_ID}-v${MODULE_VERSION}-safe-disabled.zip"
 
       - uses: actions/upload-artifact@v4
         with:
@@ -87,7 +87,7 @@ jobs:
           ## Packages
 
           - ${MODULE_ID}-v${MODULE_VERSION}.zip: full compatibility package.
-          - ${MODULE_ID}-v${MODULE_VERSION}-coloros16-safe-disabled.zip: conservative ColorOS/OxygenOS first-test package, disabled by default.
+          - ${MODULE_ID}-v${MODULE_VERSION}-safe-disabled.zip: conservative first-test package, disabled by default.
 
           ## Fonts
 

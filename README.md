@@ -14,7 +14,7 @@ This is intentionally built as a KernelSU/Magisk module, not an Xposed APK. Font
 - [Build](#build)
 - [Release](#release)
 - [Install](#install)
-- [ColorOS 16 / OnePlus First Test](#coloros-16--oneplus-first-test)
+- [Safe First Test](#safe-first-test)
 - [Font Mapping](#font-mapping)
 - [Sources](#sources)
 
@@ -27,19 +27,19 @@ python tools/build.py
 
 The build writes two flashable zips:
 
-- `dist/hybridfont_notosc_inter-v1.0.0.zip`: full compatibility package.
-- `dist/hybridfont_notosc_inter-v1.0.0-coloros16-safe-disabled.zip`: conservative package with the module disabled by default and without `DroidSansFallback*` or generic `NotoSansCJK-*.ttc` replacements.
+- `dist/hybridfont_notosc_inter-v1.0.1.zip`: full compatibility package.
+- `dist/hybridfont_notosc_inter-v1.0.1-safe-disabled.zip`: conservative package with the module disabled by default and without `DroidSansFallback*` or generic `NotoSansCJK-*.ttc` replacements.
 
 ## Release
 
 GitHub Actions publishes releases automatically when a version tag is pushed:
 
 ```powershell
-git tag v1.0.0
-git push origin v1.0.0
+git tag v1.0.1
+git push origin v1.0.1
 ```
 
-The tag must match `module/module.prop` version as `v<version>`. For example, `version=1.0.0` requires `v1.0.0`.
+The tag must match `module/module.prop` version as `v<version>`. For example, `version=1.0.1` requires `v1.0.1`.
 
 The release workflow can also be started manually from the GitHub Actions page. If no tag is provided, it uses `v<module.prop version>`.
 
@@ -47,23 +47,23 @@ The release workflow can also be started manually from the GitHub Actions page. 
 
 Install the generated zip from KernelSU Manager or Magisk. On KernelSU, `/system` file replacement requires a mounting metamodule such as `meta-overlayfs`, because KernelSU delegates system overlays to metamodules.
 
-For ColorOS/OxygenOS first tests, use the `coloros16-safe-disabled` package. After installation, confirm the module appears in KernelSU Manager, enable it manually, then reboot.
+For first tests on any ROM, use the `safe-disabled` package. After installation, confirm the module appears in KernelSU Manager, enable it manually, then reboot.
 
 Reboot after installation.
 
-## ColorOS 16 / OnePlus First Test
+## Safe First Test
 
 Use this package first:
 
 ```text
-dist/hybridfont_notosc_inter-v1.0.0-coloros16-safe-disabled.zip
+dist/hybridfont_notosc_inter-v1.0.1-safe-disabled.zip
 ```
 
-This package is disabled by default and avoids the wider fallback replacements that are more likely to vary between ROMs.
+This package is disabled by default and avoids the wider fallback replacements that are more likely to vary between ROMs. It is intended for first tests on any device or ROM.
 
 Recommended flow:
 
-1. Flash the `coloros16-safe-disabled` package in KernelSU Manager.
+1. Flash the `safe-disabled` package in KernelSU Manager.
 2. Reboot once while the module is still disabled.
 3. Confirm the module appears in KernelSU Manager.
 4. Enable the module manually.
@@ -97,7 +97,7 @@ Simplified Chinese:
 - `NotoSansCJK-VF.ttf`, `NotoSansCJKsc-VF.ttf`, `DroidSansFallback.ttf`, and `DroidSansFallbackFull.ttf` are included for common fallback paths.
 - Noto Sans SC weights: Thin 100, Light 300, DemiLight 350, Regular 400, Medium 500, Bold 700, Black 900.
 
-The full package contains 6 Inter upright weights, 6 Inter italic weights, and 7 Noto Sans SC weights. The conservative ColorOS package contains the same Inter and Noto Sans SC weight set, but skips generic TTC and DroidSans fallback compatibility files.
+The full package contains 6 Inter upright weights, 6 Inter italic weights, and 7 Noto Sans SC weights. The conservative safe package contains the same Inter and Noto Sans SC weight set, but skips generic TTC and DroidSans fallback compatibility files.
 
 Device ROMs differ. If a ROM uses vendor-specific font names, add those names to `tools/build.py` and rebuild.
 

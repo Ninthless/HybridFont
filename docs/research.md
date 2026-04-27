@@ -22,11 +22,11 @@ Android uses XML font-family fallback configuration and supports fallback custom
 
 The module maps Android Latin filenames to Inter static instances and common Simplified Chinese fallback filenames to Noto Sans SC static or variable files. This preserves multi-weight rendering for common Android weight requests while avoiding a device-specific `fonts.xml` replacement.
 
-## ColorOS 16 Risk Notes
+## Compatibility Risk Notes
 
 The module is not expected to hard brick a device because it does not write boot, vendor, system, or product partitions. The realistic failure mode is a recoverable boot issue caused by a bad font overlay, such as boot animation hang, SystemUI crash, or unreadable text.
 
-For ColorOS 16 on OnePlus with KernelSU, the safer first package is `hybridfont_notosc_inter-v1.0.0-coloros16-safe-disabled.zip`. It includes a `disable` flag so the module does not take effect immediately after flashing, and it skips broad compatibility replacements such as `DroidSansFallback*` and generic `NotoSansCJK-*.ttc`.
+The safer first package is `hybridfont_notosc_inter-v1.0.1-safe-disabled.zip`. It includes a `disable` flag so the module does not take effect immediately after flashing, and it skips broad compatibility replacements such as `DroidSansFallback*` and generic `NotoSansCJK-*.ttc`.
 
 If the enabled module causes boot problems, disable it by creating `/data/adb/modules/hybridfont_notosc_inter/disable` or remove `/data/adb/modules/hybridfont_notosc_inter`.
 

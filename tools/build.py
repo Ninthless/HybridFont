@@ -180,7 +180,7 @@ def main() -> None:
     MODULE_FONTS.mkdir(parents=True, exist_ok=True)
     generate_fonts(include_compat_fallbacks=False)
     DISABLE_FLAG.write_text("", encoding="utf-8")
-    print(make_zip("-coloros16-safe-disabled"))
+    print(make_zip("-safe-disabled"))
     DISABLE_FLAG.unlink()
 
 
