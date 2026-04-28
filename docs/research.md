@@ -26,7 +26,9 @@ The module maps Android Latin filenames to Inter static instances and common Sim
 
 The module is not expected to hard brick a device because it does not write boot, vendor, system, or product partitions. The realistic failure mode is a recoverable boot issue caused by a bad font overlay, such as boot animation hang, SystemUI crash, or unreadable text.
 
-The safer first package is `hybridfont_notosc_inter-v1.1.0-safe-disabled.zip`. It includes a `disable` flag so the module does not take effect immediately after flashing, and it skips broad compatibility replacements such as `DroidSansFallback*` and generic `NotoSansCJK-*.ttc`.
+The safer first package is `hybridfont_notosc_inter-v1.1.1-safe-disabled.zip`. It includes a `disable` flag so the module does not take effect immediately after flashing, and it skips broad compatibility replacements such as `DroidSansFallback*` and generic `NotoSansCJK-*.ttc`.
+
+The `v1.1.0` Zygisk experimental package is deprecated because global file-access hooks can break WebView or embedded web content in some apps. Detection-sensitive environments should use the overlay package with module unmount/hide features or a FontLoader-style compatibility module.
 
 If the enabled module causes boot problems, disable it by creating `/data/adb/modules/hybridfont_notosc_inter/disable` or remove `/data/adb/modules/hybridfont_notosc_inter`.
 

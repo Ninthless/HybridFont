@@ -33,16 +33,6 @@ jobs:
           python-version: "3.11"
           cache: pip
 
-      - uses: android-actions/setup-android@v3
-
-      - name: Install Android NDK
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y ninja-build
-          yes | sdkmanager --licenses >/dev/null
-          sdkmanager "ndk;27.2.12479018" "cmake;3.31.6"
-          echo "ANDROID_NDK_HOME=$ANDROID_HOME/ndk/27.2.12479018" >> "$GITHUB_ENV"
-
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
@@ -84,7 +74,6 @@ jobs:
         run: |
           test -f "dist/${MODULE_ID}-v${MODULE_VERSION}.zip"
           test -f "dist/${MODULE_ID}-v${MODULE_VERSION}-safe-disabled.zip"
-          test -f "dist/${MODULE_ID}_zygisk-v${MODULE_VERSION}-experimental.zip"
 
       - uses: actions/upload-artifact@v4
         with:
@@ -99,7 +88,6 @@ jobs:
 
           - ${MODULE_ID}-v${MODULE_VERSION}.zip: full compatibility package.
           - ${MODULE_ID}-v${MODULE_VERSION}-safe-disabled.zip: conservative first-test package, disabled by default.
-          - ${MODULE_ID}_zygisk-v${MODULE_VERSION}-experimental.zip: Zygisk experimental package without system font overlay.
 
           ## Fonts
 
