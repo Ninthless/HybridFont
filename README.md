@@ -2,8 +2,6 @@
 
 KernelSU/Magisk systemless font module that maps Android Latin font files to Inter and common Simplified Chinese fallback files to Noto Sans SC.
 
-This is intentionally built as a KernelSU/Magisk module, not an Xposed APK. Font replacement is a filesystem overlay problem, while Xposed/LSPosed is better suited for runtime method hooks.
-
 ## Documentation
 
 - [中文文档](docs/zh-CN.md)
@@ -112,7 +110,6 @@ Device ROMs differ. If a ROM uses vendor-specific font names, add those names to
 
 - KernelSU module guide: https://kernelsu.org/guide/module.html
 - Magisk developer guide: https://topjohnwu.github.io/Magisk/guides.html
-- LSPosed modern Xposed API guide: https://github.com/LSPosed/LSPosed/wiki/Develop-Xposed-Modules-Using-Modern-Xposed-API
 - Android custom font fallback: https://source.android.com/docs/core/fonts/custom-font-fallback
 - Inter: https://github.com/google/fonts/tree/main/ofl/inter
 - Noto Sans SC: https://github.com/google/fonts/tree/main/ofl/notosanssc

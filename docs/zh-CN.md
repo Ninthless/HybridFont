@@ -6,8 +6,6 @@
 - 简体中文使用 Noto Sans SC。
 - 支持多字重。
 
-本模块不是 Xposed/LSPosed APK。字体替换主要是 `/system/fonts` 文件 overlay 问题，用 KernelSU/Magisk 模块更直接；Xposed/LSPosed 更适合 Hook 应用或系统运行时代码。
-
 ## 目录
 
 - [构建](#构建)
@@ -173,6 +171,5 @@ Noto Sans SC 生成 7 个中文字重：
 - KernelSU 模块文档：https://kernelsu.org/guide/module.html
 - Magisk 模块文档：https://topjohnwu.github.io/Magisk/guides.html
 - Android 字体 fallback 文档：https://source.android.com/docs/core/fonts/custom-font-fallback
-- LSPosed Modern Xposed API：https://github.com/LSPosed/LSPosed/wiki/Develop-Xposed-Modules-Using-Modern-Xposed-API
 - Inter：https://github.com/google/fonts/tree/main/ofl/inter
 - Noto Sans SC：https://github.com/google/fonts/tree/main/ofl/notosanssc
