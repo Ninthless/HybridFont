@@ -15,6 +15,7 @@ This is intentionally built as a KernelSU/Magisk module, not an Xposed APK. Font
 - [Release](#release)
 - [Install](#install)
 - [Safe First Test](#safe-first-test)
+- [Zygisk Experimental](#zygisk-experimental)
 - [Font Mapping](#font-mapping)
 - [Sources](#sources)
 
@@ -25,21 +26,22 @@ python -m pip install -r requirements.txt
 python tools/build.py
 ```
 
-The build writes two flashable zips:
+The build writes three flashable zips:
 
-- `dist/hybridfont_notosc_inter-v1.0.1.zip`: full compatibility package.
-- `dist/hybridfont_notosc_inter-v1.0.1-safe-disabled.zip`: conservative package with the module disabled by default and without `DroidSansFallback*` or generic `NotoSansCJK-*.ttc` replacements.
+- `dist/hybridfont_notosc_inter-v1.1.0.zip`: full compatibility package.
+- `dist/hybridfont_notosc_inter-v1.1.0-safe-disabled.zip`: conservative package with the module disabled by default and without `DroidSansFallback*` or generic `NotoSansCJK-*.ttc` replacements.
+- `dist/hybridfont_notosc_inter_zygisk-v1.1.0-experimental.zip`: Zygisk experimental package without system font overlay.
 
 ## Release
 
 GitHub Actions publishes releases automatically when a version tag is pushed:
 
 ```powershell
-git tag v1.0.1
-git push origin v1.0.1
+git tag v1.1.0
+git push origin v1.1.0
 ```
 
-The tag must match `module/module.prop` version as `v<version>`. For example, `version=1.0.1` requires `v1.0.1`.
+The tag must match `module/module.prop` version as `v<version>`. For example, `version=1.1.0` requires `v1.1.0`.
 
 The release workflow can also be started manually from the GitHub Actions page. If no tag is provided, it uses `v<module.prop version>`.
 
@@ -56,7 +58,7 @@ Reboot after installation.
 Use this package first:
 
 ```text
-dist/hybridfont_notosc_inter-v1.0.1-safe-disabled.zip
+dist/hybridfont_notosc_inter-v1.1.0-safe-disabled.zip
 ```
 
 This package is disabled by default and avoids the wider fallback replacements that are more likely to vary between ROMs. It is intended for first tests on any device or ROM.
@@ -82,6 +84,18 @@ You can also remove the module directory:
 ```
 
 This module does not write real system partitions, so the expected failure mode is a recoverable module boot issue rather than a hard brick.
+
+## Zygisk Experimental
+
+Use this package only if you have a working Zygisk environment:
+
+```text
+dist/hybridfont_notosc_inter_zygisk-v1.1.0-experimental.zip
+```
+
+This package uses `id=hybridfont_notosc_inter_zygisk`, keeps fonts under the module private `fonts/` directory, and does not mount files into `/system/fonts`.
+
+Do not enable the Zygisk experimental package together with the overlay package.
 
 ## Font Mapping
 

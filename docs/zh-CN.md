@@ -15,6 +15,7 @@
 - [生成的刷入包](#生成的刷入包)
 - [安装](#安装)
 - [通用首刷建议](#通用首刷建议)
+- [Zygisk 实验包](#zygisk-实验包)
 - [出问题怎么救](#出问题怎么救)
 - [字重数量](#字重数量)
 - [字体映射](#字体映射)
@@ -37,38 +38,40 @@ python tools/build.py
 .github/workflows/release.yml
 ```
 
-推送版本 tag 后会自动构建两个 zip，并创建 GitHub Release：
+推送版本 tag 后会自动构建三个 zip，并创建 GitHub Release：
 
 ```powershell
-git tag v1.0.1
-git push origin v1.0.1
+git tag v1.1.0
+git push origin v1.1.0
 ```
 
 tag 必须和 `module/module.prop` 里的版本一致。比如：
 
 ```text
-version=1.0.1
+version=1.1.0
 ```
 
 对应 tag 必须是：
 
 ```text
-v1.0.1
+v1.1.0
 ```
 
 也可以在 GitHub Actions 页面手动运行 `Release` 工作流。如果不填写 tag，会默认使用 `v<module.prop version>`。
 
 ## 生成的刷入包
 
-构建完成后会生成两个 zip：
+构建完成后会生成三个 zip：
 
-- `dist/hybridfont_notosc_inter-v1.0.1.zip`
-- `dist/hybridfont_notosc_inter-v1.0.1-safe-disabled.zip`
+- `dist/hybridfont_notosc_inter-v1.1.0.zip`
+- `dist/hybridfont_notosc_inter-v1.1.0-safe-disabled.zip`
+- `dist/hybridfont_notosc_inter_zygisk-v1.1.0-experimental.zip`
 
-两个包的区别：
+三个包的区别：
 
 - 完整包：覆盖范围更大，包含 `DroidSansFallback*` 和通用 `NotoSansCJK-*.ttc` 兼容文件。
 - 安全包：默认禁用模块，并且跳过更激进的 fallback/TTC 替换，适合所有机型第一次测试。
+- Zygisk 实验包：不挂载 `/system/fonts`，需要可用的 Zygisk 环境。
 
 ## 安装
 
@@ -81,7 +84,7 @@ KernelSU 上替换 `/system` 文件需要有可用的挂载 metamodule，例如 
 第一次在任意机型或任意 ROM 上测试，建议先刷这个包：
 
 ```text
-dist/hybridfont_notosc_inter-v1.0.1-safe-disabled.zip
+dist/hybridfont_notosc_inter-v1.1.0-safe-disabled.zip
 ```
 
 推荐流程：
@@ -94,6 +97,22 @@ dist/hybridfont_notosc_inter-v1.0.1-safe-disabled.zip
 6. 测试系统设置、桌面、锁屏、浏览器、微信等常用场景。
 
 不建议第一次直接刷完整包。
+
+## Zygisk 实验包
+
+如果你的环境已经能正常隐藏 Zygisk，可以测试：
+
+```text
+dist/hybridfont_notosc_inter_zygisk-v1.1.0-experimental.zip
+```
+
+这个包使用独立模块 ID：
+
+```text
+hybridfont_notosc_inter_zygisk
+```
+
+字体文件放在模块私有 `fonts/` 目录，不写入或挂载 `/system/fonts`。不要和 overlay 版字体包同时启用。
 
 ## 出问题怎么救
 
