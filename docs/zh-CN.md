@@ -1,6 +1,6 @@
 # Hybrid Font 中文文档
 
-这是一个 KernelSU/Magisk systemless 字体模块，目标是通过 Android 字体 XML 映射和常见兼容文件名实现 Noto Sans SC + Inter 混合字体：
+这是一个 KernelSU/Magisk systemless 字体模块，目标是通过常见兼容文件名实现 Noto Sans SC + Inter 混合字体：
 
 - 英文字母、数字、常见拉丁字符使用 Inter。
 - 简体中文使用 Noto Sans SC。
@@ -40,20 +40,20 @@ python tools/build.py
 推送版本 tag 后会自动构建两个 zip，并创建 GitHub Release：
 
 ```powershell
-git tag v1.2.0
-git push origin v1.2.0
+git tag v1.2.1
+git push origin v1.2.1
 ```
 
 tag 必须和 `module/module.prop` 里的版本一致。比如：
 
 ```text
-version=1.2.0
+version=1.2.1
 ```
 
 对应 tag 必须是：
 
 ```text
-v1.2.0
+v1.2.1
 ```
 
 也可以在 GitHub Actions 页面手动运行 `Release` 工作流。如果不填写 tag，会默认使用 `v<module.prop version>`。
@@ -62,8 +62,8 @@ v1.2.0
 
 构建完成后会生成两个 zip：
 
-- `dist/hybridfont_notosc_inter-v1.2.0.zip`
-- `dist/hybridfont_notosc_inter-v1.2.0-safe-disabled.zip`
+- `dist/hybridfont_notosc_inter-v1.2.1.zip`
+- `dist/hybridfont_notosc_inter-v1.2.1-safe-disabled.zip`
 
 两个包的区别：
 
@@ -81,7 +81,7 @@ KernelSU 上替换 `/system` 文件需要有可用的挂载 metamodule，例如 
 第一次在任意机型或任意 ROM 上测试，建议先刷这个包：
 
 ```text
-dist/hybridfont_notosc_inter-v1.2.0-safe-disabled.zip
+dist/hybridfont_notosc_inter-v1.2.1-safe-disabled.zip
 ```
 
 推荐流程：
@@ -103,15 +103,11 @@ dist/hybridfont_notosc_inter-v1.2.0-safe-disabled.zip
 
 ## ColorOS 16 说明
 
-ColorOS 16 更适合使用 XML 映射型字体模块，而不是只替换字体文件名。本模块会生成根目录 `fonts.xml`，并默认放入 `/system/etc/fonts.xml` 和 `/system/etc/font_fallback.xml`。安装时还会检测设备上实际存在的 `font*.xml`，并映射到这些路径：
+ColorOS 16 上如果整文件替换 ROM 自带的 `font*.xml` fallback 链，可能导致浏览器、WebView 或部分系统界面文字异常。本模块默认不挂载 `fonts.xml`、`/system/etc/fonts.xml`、`/system/etc/font_fallback.xml`，也不会覆盖任何系统字体 XML。
 
-- `/system/system_ext/etc`
-- `/system/product/etc`
-- `/system/etc`
+刷入包里仍会保留根目录 `fonts.xml`，它只作为 MFGA 类 XML 映射方案的参考文件存在，不会被 KernelSU/Magisk 自动 overlay 到 `/system`。
 
-ColorOS 16 上需要确保 KernelSU/Magisk 的 systemless overlay 挂载正常。如果部分 App 因 Android 12+ 字体加载行为出现崩溃或内容加载异常，可以搭配 FontLoader 类兼容模块。如果同时使用 MFGA 这类字体 XML 映射模块，不建议让两个模块同时覆盖同一批 `font*.xml`，否则最终生效的是挂载优先级更高的那个。
-
-生成的 XML 也会把 `Roboto` 以及常见 OnePlus、OPPO、OPlus、ColorOS 字体族名 alias 到 `sans-serif`，系统组件如果请求这些字体族名，也会解析到 Inter。
+ColorOS 16 上建议把本模块作为字体资源包使用。如果需要 XML 映射，让 MFGA 负责 ROM 相关的字体 XML 层；如果出现 Android 12+ App 字体加载兼容问题，再搭配 FontLoader。不要让多个模块同时覆盖同一批 `font*.xml`。
 
 ## 出问题怎么救
 
@@ -178,7 +174,6 @@ Noto Sans SC 生成 10 个中文字重：
 英文/拉丁：
 
 - `Roboto-*.ttf` 映射到 Inter 静态实例。
-- XML 中的 `sans-serif` 映射到 Inter 的 `Roboto-*` 兼容文件名。
 
 简体中文：
 
@@ -186,7 +181,6 @@ Noto Sans SC 生成 10 个中文字重：
 - `NotoSansCJKsc-*.otf` 映射到 Noto Sans SC 静态实例。
 - 完整包额外包含 `DroidSansFallback.ttf` 和 `DroidSansFallbackFull.ttf`。
 - 两个包都包含 `NotoSansCJK-VF.ttf` 和 `NotoSansCJKsc-VF.ttf`。
-- XML 中的 `zh-Hans` 和 `zh-CN` 映射到 Noto Sans SC 的数字字重文件。
 
 不同 ROM 的字体文件名可能不一样。如果某个 ROM 使用厂商自定义字体文件名，需要在 `tools/build.py` 里增加对应映射后重新构建。
 

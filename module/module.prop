@@ -1,6 +1,6 @@
 id=hybridfont_notosc_inter
 name=Hybrid Font - Noto Sans SC + Inter
-version=1.2.0
-versionCode=5
+version=1.2.1
+versionCode=6
 author=Ninthless
-description=Systemless XML-mapped font module for KernelSU/Magisk: Inter for Latin and Noto Sans SC for Simplified Chinese.
+description=Systemless font module for KernelSU/Magisk: Inter for Latin and Noto Sans SC for Simplified Chinese.

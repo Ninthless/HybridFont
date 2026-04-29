@@ -9,6 +9,7 @@ from xml.etree import ElementTree
 
 from fontTools.ttLib import TTFont
 from fontTools.varLib import instancer
+from fontTools.varLib.instancer import OverlapMode
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -17,7 +18,6 @@ DOWNLOADS = ROOT / "build" / "downloads"
 GENERATED = ROOT / "build" / "generated-fonts"
 DIST = ROOT / "dist"
 MODULE_FONTS = MODULE / "system" / "fonts"
-MODULE_ETC = MODULE / "system" / "etc"
 MODULE_LICENSES = MODULE / "licenses"
 DISABLE_FLAG = MODULE / "disable"
 MODULE_PROP = MODULE / "module.prop"
@@ -162,12 +162,14 @@ def instantiate_variable(
     family: str,
     style_name: str,
     postscript: str,
+    remove_overlap: bool = False,
 ) -> None:
     if target.exists() and target.stat().st_size > 0:
         return
     target.parent.mkdir(parents=True, exist_ok=True)
     font = TTFont(source)
-    static_font = instancer.instantiateVariableFont(font, axes, inplace=False)
+    overlap = OverlapMode.REMOVE_AND_IGNORE_ERRORS if remove_overlap else OverlapMode.KEEP_AND_SET_FLAGS
+    static_font = instancer.instantiateVariableFont(font, axes, inplace=False, overlap=overlap)
     rename_font(static_font, family, style_name, f"{family} {style_name}", postscript)
     static_font.save(target)
     static_font.close()
@@ -177,20 +179,23 @@ def instantiate_variable(
 def clean_output() -> None:
     if MODULE_FONTS.exists():
         shutil.rmtree(MODULE_FONTS)
-    if MODULE_ETC.exists():
-        shutil.rmtree(MODULE_ETC)
+    module_etc = MODULE / "system" / "etc"
+    if module_etc.exists():
+        shutil.rmtree(module_etc)
     if MODULE_LICENSES.exists():
         shutil.rmtree(MODULE_LICENSES)
     if GENERATED.exists():
         shutil.rmtree(GENERATED)
     if DIST.exists():
-        shutil.rmtree(DIST)
+        try:
+            shutil.rmtree(DIST)
+        except PermissionError as error:
+            raise SystemExit(f"Cannot clean dist because a package is open: {error.filename}") from error
     if MODULE_FONT_XML.exists():
         MODULE_FONT_XML.unlink()
     if DISABLE_FLAG.exists():
         DISABLE_FLAG.unlink()
     MODULE_FONTS.mkdir(parents=True, exist_ok=True)
-    MODULE_ETC.mkdir(parents=True, exist_ok=True)
     MODULE_LICENSES.mkdir(parents=True, exist_ok=True)
     DIST.mkdir(parents=True, exist_ok=True)
 
@@ -270,10 +275,7 @@ def write_font_xml() -> None:
     replace_zh_hans(root)
     add_coloros_aliases(root)
     ElementTree.indent(tree, space="    ")
-    MODULE_ETC.mkdir(parents=True, exist_ok=True)
     tree.write(MODULE_FONT_XML, encoding="utf-8", xml_declaration=True)
-    shutil.copy2(MODULE_FONT_XML, MODULE_ETC / "fonts.xml")
-    shutil.copy2(MODULE_FONT_XML, MODULE_ETC / "font_fallback.xml")
 
 
 def generate_fonts(output_dir: Path, include_compat_fallbacks: bool) -> None:
@@ -301,7 +303,7 @@ def generate_fonts(output_dir: Path, include_compat_fallbacks: bool) -> None:
 
     for name, weight in CJK_WEIGHTS.items():
         target = GENERATED / "noto-sans-sc" / f"NotoSansSC-{name}.ttf"
-        instantiate_variable(noto_sc, target, {"wght": weight}, "Noto Sans SC", name, f"NotoSansSC-{name}")
+        instantiate_variable(noto_sc, target, {"wght": weight}, "Noto Sans SC", name, f"NotoSansSC-{name}", remove_overlap=True)
         cjk_generated[name] = target
 
     for name in INTER_WEIGHTS:
@@ -340,9 +342,7 @@ def main() -> None:
     print(make_zip())
 
     shutil.rmtree(MODULE_FONTS)
-    shutil.rmtree(MODULE_ETC)
     MODULE_FONTS.mkdir(parents=True, exist_ok=True)
-    MODULE_ETC.mkdir(parents=True, exist_ok=True)
     generate_fonts(MODULE_FONTS, include_compat_fallbacks=False)
     write_font_xml()
     DISABLE_FLAG.write_text("", encoding="utf-8")

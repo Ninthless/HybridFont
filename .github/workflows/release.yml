@@ -86,14 +86,14 @@ jobs:
           cat > RELEASE_NOTES.md <<EOF
           ## Packages
 
-          - ${MODULE_ID}-v${MODULE_VERSION}.zip: full XML-mapped compatibility package.
+          - ${MODULE_ID}-v${MODULE_VERSION}.zip: full compatibility package.
           - ${MODULE_ID}-v${MODULE_VERSION}-safe-disabled.zip: conservative first-test package, disabled by default.
 
           ## Fonts
 
           - Inter: 9 upright weights and 9 italic weights.
           - Noto Sans SC: 10 Simplified Chinese weights.
-          - Android font XML maps sans-serif to Inter and zh-Hans/zh-CN to Noto Sans SC.
+          - Includes root-level fonts.xml as a reference file only; system font XML files are not mounted.
           EOF
 
       - name: Publish GitHub release

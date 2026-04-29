@@ -1,0 +1,355 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Hybrid Font Showcase</title>
+  <style>
+    @font-face { font-family: HybridShowcase; src: url("../module/system/fonts/Roboto-Thin.ttf") format("truetype"); font-weight: 100; font-style: normal; unicode-range: U+0000-024F, U+2000-206F, U+20A0-20CF; }
+    @font-face { font-family: HybridShowcase; src: url("../module/system/fonts/Roboto-ExtraLight.ttf") format("truetype"); font-weight: 200; font-style: normal; unicode-range: U+0000-024F, U+2000-206F, U+20A0-20CF; }
+    @font-face { font-family: HybridShowcase; src: url("../module/system/fonts/Roboto-Light.ttf") format("truetype"); font-weight: 300; font-style: normal; unicode-range: U+0000-024F, U+2000-206F, U+20A0-20CF; }
+    @font-face { font-family: HybridShowcase; src: url("../module/system/fonts/Roboto-Regular.ttf") format("truetype"); font-weight: 350 400; font-style: normal; unicode-range: U+0000-024F, U+2000-206F, U+20A0-20CF; }
+    @font-face { font-family: HybridShowcase; src: url("../module/system/fonts/Roboto-Medium.ttf") format("truetype"); font-weight: 500; font-style: normal; unicode-range: U+0000-024F, U+2000-206F, U+20A0-20CF; }
+    @font-face { font-family: HybridShowcase; src: url("../module/system/fonts/Roboto-SemiBold.ttf") format("truetype"); font-weight: 600; font-style: normal; unicode-range: U+0000-024F, U+2000-206F, U+20A0-20CF; }
+    @font-face { font-family: HybridShowcase; src: url("../module/system/fonts/Roboto-Bold.ttf") format("truetype"); font-weight: 700; font-style: normal; unicode-range: U+0000-024F, U+2000-206F, U+20A0-20CF; }
+    @font-face { font-family: HybridShowcase; src: url("../module/system/fonts/Roboto-ExtraBold.ttf") format("truetype"); font-weight: 800; font-style: normal; unicode-range: U+0000-024F, U+2000-206F, U+20A0-20CF; }
+    @font-face { font-family: HybridShowcase; src: url("../module/system/fonts/Roboto-Black.ttf") format("truetype"); font-weight: 900; font-style: normal; unicode-range: U+0000-024F, U+2000-206F, U+20A0-20CF; }
+    @font-face { font-family: HybridShowcase; src: url("../module/system/fonts/100.ttf") format("truetype"); font-weight: 100; font-style: normal; unicode-range: U+2E80-9FFF, U+F900-FAFF, U+3000-303F, U+FF00-FFEF; }
+    @font-face { font-family: HybridShowcase; src: url("../module/system/fonts/200.ttf") format("truetype"); font-weight: 200; font-style: normal; unicode-range: U+2E80-9FFF, U+F900-FAFF, U+3000-303F, U+FF00-FFEF; }
+    @font-face { font-family: HybridShowcase; src: url("../module/system/fonts/300.ttf") format("truetype"); font-weight: 300; font-style: normal; unicode-range: U+2E80-9FFF, U+F900-FAFF, U+3000-303F, U+FF00-FFEF; }
+    @font-face { font-family: HybridShowcase; src: url("../module/system/fonts/350.ttf") format("truetype"); font-weight: 350; font-style: normal; unicode-range: U+2E80-9FFF, U+F900-FAFF, U+3000-303F, U+FF00-FFEF; }
+    @font-face { font-family: HybridShowcase; src: url("../module/system/fonts/400.ttf") format("truetype"); font-weight: 400; font-style: normal; unicode-range: U+2E80-9FFF, U+F900-FAFF, U+3000-303F, U+FF00-FFEF; }
+    @font-face { font-family: HybridShowcase; src: url("../module/system/fonts/500.ttf") format("truetype"); font-weight: 500; font-style: normal; unicode-range: U+2E80-9FFF, U+F900-FAFF, U+3000-303F, U+FF00-FFEF; }
+    @font-face { font-family: HybridShowcase; src: url("../module/system/fonts/600.ttf") format("truetype"); font-weight: 600; font-style: normal; unicode-range: U+2E80-9FFF, U+F900-FAFF, U+3000-303F, U+FF00-FFEF; }
+    @font-face { font-family: HybridShowcase; src: url("../module/system/fonts/700.ttf") format("truetype"); font-weight: 700; font-style: normal; unicode-range: U+2E80-9FFF, U+F900-FAFF, U+3000-303F, U+FF00-FFEF; }
+    @font-face { font-family: HybridShowcase; src: url("../module/system/fonts/800.ttf") format("truetype"); font-weight: 800; font-style: normal; unicode-range: U+2E80-9FFF, U+F900-FAFF, U+3000-303F, U+FF00-FFEF; }
+    @font-face { font-family: HybridShowcase; src: url("../module/system/fonts/900.ttf") format("truetype"); font-weight: 900; font-style: normal; unicode-range: U+2E80-9FFF, U+F900-FAFF, U+3000-303F, U+FF00-FFEF; }
+
+    :root {
+      --paper: #f8f8f3;
+      --panel: #fffef9;
+      --ink: #12130f;
+      --muted: #687066;
+      --line: #d8dccf;
+      --wash: #eef1e8;
+      --accent: #0b766d;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background:
+        linear-gradient(90deg, rgba(18, 19, 15, .035) 1px, transparent 1px) 0 0 / 160px 160px,
+        linear-gradient(rgba(18, 19, 15, .035) 1px, transparent 1px) 0 0 / 160px 160px,
+        var(--paper);
+      color: var(--ink);
+      font-family: HybridShowcase, sans-serif;
+      display: grid;
+      place-items: start center;
+      padding: 72px 24px;
+      letter-spacing: 0;
+    }
+
+    .poster {
+      width: min(1440px, 100%);
+      min-height: 1860px;
+      padding: 64px;
+      border: 2px solid var(--line);
+      border-radius: 34px;
+      background: var(--panel);
+    }
+
+    .eyebrow {
+      margin: 0 0 38px;
+      color: var(--accent);
+      font-size: 30px;
+      font-weight: 800;
+      line-height: 1;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 118px;
+      line-height: .95;
+      font-weight: 900;
+    }
+
+    .subtitle {
+      margin: 18px 0 0;
+      font-size: 54px;
+      line-height: 1.08;
+      font-weight: 700;
+    }
+
+    .dek {
+      margin: 28px 0 54px;
+      color: var(--muted);
+      font-size: 38px;
+      line-height: 1.28;
+      font-weight: 400;
+    }
+
+    .rule {
+      height: 2px;
+      margin-bottom: 56px;
+      background: var(--line);
+    }
+
+    .sample {
+      padding: 50px 56px;
+      border-radius: 24px;
+      background: var(--wash);
+    }
+
+    .label {
+      color: var(--accent);
+      font-size: 28px;
+      line-height: 1;
+      font-weight: 800;
+    }
+
+    .hero-line {
+      margin-top: 42px;
+      font-size: 82px;
+      line-height: 1.02;
+      font-weight: 800;
+    }
+
+    .latin-line {
+      margin-top: 30px;
+      font-size: 46px;
+      line-height: 1.12;
+      font-weight: 400;
+      color: #30342d;
+    }
+
+    .cjk-line {
+      margin-top: 16px;
+      font-size: 34px;
+      line-height: 1.15;
+      font-weight: 500;
+      color: var(--muted);
+    }
+
+    .card {
+      margin-top: 0;
+      padding: 48px 48px;
+      border: 2px solid var(--line);
+      border-radius: 24px;
+      background: var(--panel);
+    }
+
+    .preview {
+      margin-top: 42px;
+    }
+
+    .row {
+      display: grid;
+      grid-template-columns: 82px 1fr;
+      gap: 38px;
+      align-items: center;
+      min-height: 108px;
+      border-bottom: 1px solid #ecefe7;
+    }
+
+    .row:last-child {
+      border-bottom: 0;
+    }
+
+    .avatar {
+      width: 80px;
+      height: 80px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: var(--ink);
+      color: var(--panel);
+      font-size: 42px;
+      font-weight: 700;
+      line-height: 1;
+    }
+
+    .name {
+      font-size: 50px;
+      line-height: 1.06;
+      font-weight: 600;
+    }
+
+    .note {
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 28px;
+      line-height: 1.05;
+      font-weight: 400;
+    }
+
+    .weights {
+      display: grid;
+      gap: 10px;
+      margin-top: 42px;
+    }
+
+    .weight-row {
+      display: grid;
+      grid-template-columns: 90px 1fr;
+      align-items: baseline;
+      font-size: 33px;
+      line-height: 1;
+    }
+
+    .weight-num {
+      color: var(--muted);
+      font-size: 28px;
+      font-weight: 700;
+    }
+
+    .w100 { font-weight: 100; }
+    .w200 { font-weight: 200; }
+    .w300 { font-weight: 300; }
+    .w350 { font-weight: 350; }
+    .w400 { font-weight: 400; }
+    .w500 { font-weight: 500; }
+    .w600 { font-weight: 600; }
+    .w700 { font-weight: 700; }
+    .w800 { font-weight: 800; }
+    .w900 { font-weight: 900; }
+
+    .footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 56px;
+      padding: 28px 56px;
+      border-radius: 18px;
+      background: var(--ink);
+      color: var(--panel);
+      font-size: 34px;
+      line-height: 1;
+      font-weight: 500;
+    }
+
+    .version {
+      font-weight: 800;
+    }
+
+    .lower-grid {
+      display: grid;
+      grid-template-columns: 1.06fr .94fr;
+      gap: 36px;
+      margin-top: 56px;
+      align-items: stretch;
+    }
+
+    @media (max-width: 900px) {
+      body {
+        padding: 0;
+      }
+
+      .poster {
+        width: 100%;
+        min-height: auto;
+        border-radius: 0;
+        border-left: 0;
+        border-right: 0;
+        padding: 42px 24px;
+      }
+
+      h1 {
+        font-size: 74px;
+      }
+
+      .subtitle {
+        font-size: 38px;
+      }
+
+      .dek {
+        font-size: 25px;
+      }
+
+      .hero-line {
+        font-size: 48px;
+      }
+
+      .latin-line,
+      .name {
+        font-size: 34px;
+      }
+
+      .card,
+      .sample {
+        padding: 34px 28px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="poster">
+    <p class="eyebrow">KERNELSU / MAGISK FONT MODULE</p>
+    <h1>Hybrid Font</h1>
+    <p class="subtitle">Noto Sans SC + Inter</p>
+    <p class="dek">英文 Inter / 中文 Noto Sans SC / 保守覆盖，不接管系统 XML</p>
+    <div class="rule"></div>
+
+    <section class="sample">
+      <div class="label">MIXED TYPE SAMPLE</div>
+      <div class="hero-line">Ninthless 字体模块</div>
+      <div class="latin-line">Aa Bb Cc 12345 iI Ll 字形、间距、重量</div>
+      <div class="cjk-line">回响 围困 品器 咖啡 国家</div>
+    </section>
+
+    <div class="lower-grid">
+      <section class="card">
+        <div class="label">WECHAT NICKNAME PREVIEW</div>
+        <div class="preview">
+          <div class="row">
+            <div class="avatar">N</div>
+            <div>
+              <div class="name">Ninthless</div>
+              <div class="note">Inter Latin</div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="avatar">回</div>
+            <div>
+              <div class="name">回响与国境</div>
+              <div class="note">Noto Sans SC</div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="avatar">品</div>
+            <div>
+              <div class="name">咖啡品鉴 2026</div>
+              <div class="note">Mixed rendering</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="label">CJK WEIGHT RAMP</div>
+        <div class="weights">
+          <div class="weight-row w100"><span class="weight-num">100</span><span>口回国围 Hybrid</span></div>
+          <div class="weight-row w200"><span class="weight-num">200</span><span>口回国围 Hybrid</span></div>
+          <div class="weight-row w300"><span class="weight-num">300</span><span>口回国围 Hybrid</span></div>
+          <div class="weight-row w350"><span class="weight-num">350</span><span>口回国围 Hybrid</span></div>
+          <div class="weight-row w400"><span class="weight-num">400</span><span>口回国围 Hybrid</span></div>
+          <div class="weight-row w500"><span class="weight-num">500</span><span>口回国围 Hybrid</span></div>
+          <div class="weight-row w600"><span class="weight-num">600</span><span>口回国围 Hybrid</span></div>
+          <div class="weight-row w700"><span class="weight-num">700</span><span>口回国围 Hybrid</span></div>
+          <div class="weight-row w800"><span class="weight-num">800</span><span>口回国围 Hybrid</span></div>
+          <div class="weight-row w900"><span class="weight-num">900</span><span>口回国围 Hybrid</span></div>
+        </div>
+      </section>
+    </div>
+
+    <div class="footer">
+      <span>Rendered with actual module font files</span>
+      <span class="version">v1.2.1</span>
+    </div>
+  </main>
+</body>
+</html>
