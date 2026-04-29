@@ -99,7 +99,7 @@ dist/hybridfont_notosc_inter-v1.2.1-safe-disabled.zip
 
 `v1.1.0` 的 Zygisk 实验包已废弃。它使用全局文件访问 hook，可能导致部分 App 的 WebView 或内嵌网页内容加载异常。
 
-检测敏感环境建议继续使用 overlay 包，并配合 root 方案的模块卸载/隐藏能力，或使用 FontLoader 类兼容模块处理 App 崩溃与字体加载问题。
+检测敏感环境建议继续使用 overlay 包，并配合 root 方案的模块卸载/隐藏能力，或使用 [FontLoader](https://github.com/JingMatrix/FontLoader) 类兼容模块处理 App 崩溃与字体加载问题。
 
 ## ColorOS 16 说明
 
@@ -107,7 +107,7 @@ ColorOS 16 上如果整文件替换 ROM 自带的 `font*.xml` fallback 链，可
 
 刷入包里仍会保留根目录 `fonts.xml`，它只作为 MFGA 类 XML 映射方案的参考文件存在，不会被 KernelSU/Magisk 自动 overlay 到 `/system`。
 
-ColorOS 16 上建议把本模块作为字体资源包使用。如果需要 XML 映射，让 MFGA 负责 ROM 相关的字体 XML 层；如果出现 Android 12+ App 字体加载兼容问题，再搭配 FontLoader。不要让多个模块同时覆盖同一批 `font*.xml`。
+ColorOS 16 上建议把本模块作为字体资源包使用。如果需要 XML 映射，让 [MFGA](https://github.com/Numbersf/MakeFontsGreatAgain) 负责 ROM 相关的字体 XML 层；如果出现 Android 12+ App 字体加载兼容问题，再搭配 [FontLoader](https://github.com/JingMatrix/FontLoader)。不要让多个模块同时覆盖同一批 `font*.xml`。
 
 ## 出问题怎么救
 
@@ -188,6 +188,8 @@ Noto Sans SC 生成 10 个中文字重：
 
 - KernelSU 模块文档：https://kernelsu.org/guide/module.html
 - Magisk 模块文档：https://topjohnwu.github.io/Magisk/guides.html
+- FontLoader：https://github.com/JingMatrix/FontLoader
+- MFGA：https://github.com/Numbersf/MakeFontsGreatAgain
 - Android 字体 fallback 文档：https://source.android.com/docs/core/fonts/custom-font-fallback
 - Inter：https://github.com/google/fonts/tree/main/ofl/inter
 - Noto Sans SC：https://github.com/google/fonts/tree/main/ofl/notosanssc

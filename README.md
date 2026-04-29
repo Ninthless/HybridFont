@@ -87,7 +87,7 @@ This module does not write real system partitions, so the expected failure mode 
 
 The `v1.1.0` Zygisk experimental package is deprecated because global file-access hooks can break WebView or embedded web content in some apps.
 
-For detection-sensitive environments, use the overlay package with your root solution's module unmount/hide features or a dedicated FontLoader-style compatibility module instead of the deprecated Zygisk package.
+For detection-sensitive environments, use the overlay package with your root solution's module unmount/hide features or a dedicated [FontLoader](https://github.com/JingMatrix/FontLoader)-style compatibility module instead of the deprecated Zygisk package.
 
 ## ColorOS 16 Notes
 
@@ -95,7 +95,7 @@ ColorOS 16 can break WebView or browser text rendering if a module replaces the 
 
 The package still includes a root-level `fonts.xml` as a reference for MFGA-style mapping, but KernelSU/Magisk will not overlay it onto `/system` unless another module explicitly does so.
 
-For ColorOS 16, use this module as the font resource package. If you need XML mapping, let MFGA handle the ROM-specific font XML layer and use FontLoader as a companion compatibility module when Android 12+ app font loading issues appear. Avoid stacking multiple modules that replace the same `font*.xml` files.
+For ColorOS 16, use this module as the font resource package. If you need XML mapping, let [MFGA](https://github.com/Numbersf/MakeFontsGreatAgain) handle the ROM-specific font XML layer and use [FontLoader](https://github.com/JingMatrix/FontLoader) as a companion compatibility module when Android 12+ app font loading issues appear. Avoid stacking multiple modules that replace the same `font*.xml` files.
 
 ## Font Mapping
 
@@ -119,6 +119,8 @@ Device ROMs differ. If a ROM uses vendor-specific font names, add those names to
 
 - KernelSU module guide: https://kernelsu.org/guide/module.html
 - Magisk developer guide: https://topjohnwu.github.io/Magisk/guides.html
+- FontLoader: https://github.com/JingMatrix/FontLoader
+- MFGA: https://github.com/Numbersf/MakeFontsGreatAgain
 - Android custom font fallback: https://source.android.com/docs/core/fonts/custom-font-fallback
 - Inter: https://github.com/google/fonts/tree/main/ofl/inter
 - Noto Sans SC: https://github.com/google/fonts/tree/main/ofl/notosanssc
