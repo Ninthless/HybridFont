@@ -1,6 +1,8 @@
 build/
 dist/
 module/system/fonts/
+module/system/etc/
 module/licenses/
+module/fonts.xml
 *.pyc
 __pycache__/
